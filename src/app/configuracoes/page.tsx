@@ -2,11 +2,12 @@
 
 import { useRequireAuth } from '@/hooks/useRequireAuth'
 import Layout from '@/components/shared/Layout'
+import FullPageSpinner from '@/components/shared/FullPageSpinner'
 
 export default function ConfiguracoesPage() {
   const { loading } = useRequireAuth()
 
-  if (loading) return null
+  if (loading) return <FullPageSpinner />
 
   return (
     <Layout>

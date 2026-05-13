@@ -4,11 +4,12 @@ import { Suspense } from 'react'
 import { useRequireAuth } from '@/hooks/useRequireAuth'
 import Layout from '@/components/shared/Layout'
 import InboxForm from '@/components/features/inbox/InboxForm'
+import FullPageSpinner from '@/components/shared/FullPageSpinner'
 
 export default function InboxPage() {
   const { loading } = useRequireAuth()
 
-  if (loading) return null
+  if (loading) return <FullPageSpinner />
 
   return (
     <Layout>
