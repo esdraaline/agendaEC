@@ -50,7 +50,7 @@ Status: em andamento
 - [x] Configuração Supabase (projeto criado + .env preenchido)
 - [x] Configuração Zustand
 - [x] Configuração TanStack Query (instalado)
-- [ ] Configuração Workbox
+- [x] Configuração Workbox
 - [x] Configuração vercel.json
 - [x] Configuração manifest.json
 
@@ -101,15 +101,15 @@ Status: em andamento
 - [x] Persistência local (localStorage + Zustand persist)
 - [ ] Retry simples
 - [ ] Reconexão automática
-- [ ] Cache básico
+- [x] Cache básico
 
 ---
 
 # Próximo passo concreto
 
-Configurar Workbox/Service Worker para PWA offline.
+Testar fluxo completo de login no celular e validar instalação PWA.
 
-Depois: testar fluxo completo de login no celular e validar instalação PWA.
+Depois: implementar retry simples e reconexão automática para offline.
 
 ---
 
