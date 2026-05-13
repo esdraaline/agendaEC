@@ -1,6 +1,6 @@
 # STATUS.md — AgendaEC
 
-Última atualização: 2026-05-13
+Última atualização: 2026-05-13 (fim de sessão)
 
 ---
 
@@ -22,7 +22,7 @@ Este documento deve responder rapidamente:
 
 ## Sprint 1 — Fundação
 
-Status: em andamento
+Status: validação em andamento (código concluído, testes mobile pendentes)
 
 ---
 
@@ -50,7 +50,7 @@ Status: em andamento
 - [x] Configuração Supabase (projeto criado + .env preenchido)
 - [x] Configuração Zustand
 - [x] Configuração TanStack Query (instalado)
-- [x] Configuração Workbox
+- [x] Configuração Service Worker (SW puro, sem Workbox)
 - [x] Configuração vercel.json
 - [x] Configuração manifest.json
 
@@ -90,8 +90,8 @@ Status: em andamento
 - [x] Criar manifest.json
 - [x] Configurar share_target
 - [x] Criar rota /inbox/share
-- [ ] Validar instalação PWA (aguarda deploy)
-- [ ] Validar compartilhamento WhatsApp (aguarda deploy)
+- [x] Validar instalação PWA (instalou corretamente no celular)
+- [ ] Validar compartilhamento WhatsApp (SW corrigido, pendente reteste)
 
 ---
 
@@ -107,15 +107,20 @@ Status: em andamento
 
 # Próximo passo concreto
 
-Testar fluxo completo de login no celular e validar instalação PWA.
+Retomar amanhã (2026-05-14):
 
-Depois: implementar retry simples e reconexão automática para offline.
+1. Aguardar reset do rate limit de email do Supabase (1h a partir de ~15h de 2026-05-13)
+2. Fazer login no celular com novo magic link
+3. Reinstalar PWA após último deploy (SW corrigido)
+4. Testar share_target: WhatsApp → Compartilhar → AgendaEC → Inbox
+5. Configurar SMTP próprio (Resend) para evitar rate limit futuro
+6. Se tudo validado: encerrar Sprint 1 e iniciar Sprint 2 (Inbox + IA)
 
 ---
 
 # Bloqueios atuais
 
-Nenhum bloqueio registrado.
+- Rate limit de email Supabase (free tier: 2 emails/hora) — resolver configurando SMTP próprio via Resend
 
 ---
 
@@ -133,7 +138,16 @@ Nenhum bloqueio registrado.
 
 # Histórico de Sprints Concluídos
 
-Nenhum sprint concluído até o momento.
+Nenhum sprint concluído formalmente ainda.
+
+## Sprint 1 — progresso em 2026-05-13
+
+Código 100% implementado. Pendente validação mobile final:
+- Magic link funcionando ✅
+- Login no celular ✅
+- PWA instalado ✅
+- share_target WhatsApp ⏳ (reteste após fix do SW)
+- Offline básico ⏳
 
 ---
 
