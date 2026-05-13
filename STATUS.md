@@ -1,0 +1,188 @@
+# STATUS.md — AgendaEC
+
+Última atualização: 2026-05-13
+
+---
+
+# Objetivo
+
+Servir como marcador oficial do estado atual do projeto.
+
+Este documento deve responder rapidamente:
+
+- em qual sprint o projeto está
+- o que já foi concluído
+- o que falta
+- qual o próximo passo concreto
+- quais bloqueios existem
+
+---
+
+# Sprint Atual
+
+## Sprint 1 — Fundação
+
+Status: em andamento
+
+---
+
+# Checklist Atual
+
+## Estrutura Inicial
+
+- [x] Definição da stack oficial
+- [x] Definição da arquitetura
+- [x] Definição dos princípios operacionais
+- [x] Definição dos sprints do MVP
+- [x] Estrutura inicial de diretórios
+- [x] Manifest PWA planejado
+- [x] Estratégia offline definida
+- [x] Estratégia WhatsApp definida
+
+---
+
+## Setup do Projeto
+
+- [x] Scaffold Next.js 14
+- [x] Configuração TypeScript
+- [x] Configuração Tailwind CSS
+- [x] Instalação shadcn/ui
+- [x] Configuração Supabase (projeto criado + .env preenchido)
+- [x] Configuração Zustand
+- [x] Configuração TanStack Query (instalado)
+- [ ] Configuração Workbox
+- [x] Configuração vercel.json
+- [x] Configuração manifest.json
+
+---
+
+## Banco de Dados
+
+- [x] Criar tabela stores (migration gerada)
+- [x] Criar tabela store_users (migration gerada)
+- [x] Criar tabela clients (migration gerada)
+- [x] Criar tabela entries (migration gerada)
+- [x] Criar tabela sales (migration gerada)
+- [x] Criar tabela payments (migration gerada)
+- [x] Criar tabela deliveries (migration gerada)
+- [x] Criar tabela tasks (migration gerada)
+- [x] Criar tabela appointments (migration gerada)
+- [x] Criar tabela wa_messages (migration gerada)
+- [x] Criar tabela wa_templates (migration gerada)
+- [x] Criar tabela daily_closings (migration gerada)
+- [x] Criar tabela audit_logs (migration gerada)
+- [x] Aplicar migration no Supabase (aplicada manualmente)
+
+---
+
+## Segurança
+
+- [x] Ativar RLS em todas as tabelas (na migration)
+- [x] Criar policies baseadas em store_id (na migration)
+- [x] Criar policy owner_access (stores_escrita)
+- [x] Criar policy audit_access (audit_logs_leitura_owner)
+- [x] Validar segregação de dados (RLS aplicado)
+
+---
+
+## PWA
+
+- [x] Criar manifest.json
+- [x] Configurar share_target
+- [x] Criar rota /inbox/share
+- [ ] Validar instalação PWA (aguarda deploy)
+- [ ] Validar compartilhamento WhatsApp (aguarda deploy)
+
+---
+
+## Offline
+
+- [x] Criar PendingMutation[]
+- [x] Persistência local (localStorage + Zustand persist)
+- [ ] Retry simples
+- [ ] Reconexão automática
+- [ ] Cache básico
+
+---
+
+# Próximo passo concreto
+
+Configurar Workbox/Service Worker para PWA offline.
+
+Depois: testar fluxo completo de login no celular e validar instalação PWA.
+
+---
+
+# Bloqueios atuais
+
+Nenhum bloqueio registrado.
+
+---
+
+# Observações operacionais
+
+- Não expandir escopo do MVP
+- Não criar SaaS
+- Não implementar multi-tenant complexo
+- Não adicionar automações avançadas
+- Não adicionar WhatsApp automático
+- Priorizar previsibilidade e simplicidade
+- Mobile first sempre
+
+---
+
+# Histórico de Sprints Concluídos
+
+Nenhum sprint concluído até o momento.
+
+---
+
+# Regras de Atualização
+
+Atualizar este arquivo:
+
+- no início de cada sessão
+- no fim de cada sessão
+- ao concluir tarefas importantes
+- ao mudar de sprint
+
+---
+
+# Ordem de precedência documental
+
+1. STATUS.md
+2. DECISIONS.md
+3. ARCHITECTURE.md
+4. PRD.md
+5. demais documentos
+
+---
+
+# Critério de saúde do projeto
+
+O projeto está saudável quando:
+
+- build funciona
+- fluxo principal funciona
+- PWA instala corretamente
+- sincronização funciona
+- offline não perde dados
+- arquitetura continua simples
+- debugging permanece previsível
+
+---
+
+# Regra final
+
+Antes de iniciar qualquer implementação:
+
+Perguntar:
+
+1. resolve problema real da loja?
+2. respeita o escopo do sprint?
+3. mantém simplicidade?
+4. funciona bem no celular?
+5. adiciona complexidade desnecessária?
+6. continua fácil de debugar?
+
+Se a resposta violar os princípios acima, reavaliar a implementação.
