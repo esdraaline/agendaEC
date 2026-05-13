@@ -4,11 +4,6 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Enable experimental features for PWA
-  experimental: {
-    appDir: true,
-  },
-
   // Configure webpack for Workbox
   webpack: (config, { dev, isServer }) => {
     if (!dev && !isServer) {
