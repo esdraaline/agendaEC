@@ -1,45 +1,41 @@
-import { precacheAndRoute } from 'workbox-precaching'
-import { registerRoute } from 'workbox-routing'
-import { CacheFirst, NetworkOnly } from 'workbox-strategies'
-import { ExpirationPlugin } from 'workbox-expiration'
-import { CacheableResponsePlugin } from 'workbox-cacheable-response'
+const CACHE = 'agendaec-v1'
+const OFFLINE_URLS = ['/', '/hoje', '/inbox', '/login']
 
-// Precache de assets gerados pelo Next.js (preenchido pelo InjectManifest no build)
-precacheAndRoute(self.__WB_MANIFEST || [])
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE)
+      .then((cache) => cache.addAll(OFFLINE_URLS))
+      .then(() => self.skipWaiting())
+  )
+})
 
-// Auth e tokens — NUNCA cacheados, sempre network
-registerRoute(
-  ({ url }) => url.pathname.startsWith('/auth/v1/'),
-  new NetworkOnly()
-)
-
-// REST do Supabase — NUNCA cacheado, sempre network
-// Dados financeiros e operacionais exigem sempre a versão mais recente
-registerRoute(
-  ({ url }) =>
-    url.origin === 'https://jgokqginxmkfksyppues.supabase.co' &&
-    url.pathname.startsWith('/rest/v1/'),
-  new NetworkOnly()
-)
-
-// Assets estáticos (fontes, imagens, ícones) — cache longo
-registerRoute(
-  ({ request }) =>
-    request.destination === 'image' ||
-    request.destination === 'font',
-  new CacheFirst({
-    cacheName: 'static-assets',
-    plugins: [
-      new CacheableResponsePlugin({ statuses: [0, 200] }),
-      new ExpirationPlugin({
-        maxEntries: 60,
-        maxAgeSeconds: 30 * 24 * 60 * 60, // 30 dias
-      }),
-    ],
-  })
-)
-
-self.addEventListener('install', () => self.skipWaiting())
 self.addEventListener('activate', (event) => {
-  event.waitUntil(self.clients.claim())
+  event.waitUntil(
+    caches.keys()
+      .then((keys) => Promise.all(
+        keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))
+      ))
+      .then(() => self.clients.claim())
+  )
+})
+
+self.addEventListener('fetch', (event) => {
+  const { request } = event
+  const url = new URL(request.url)
+
+  // Supabase (auth + REST) — sempre network, nunca cacheado
+  if (url.hostname.includes('supabase.co')) return
+
+  // Navegação — network first, fallback para cache
+  if (request.mode === 'navigate') {
+    event.respondWith(
+      fetch(request).catch(() => caches.match(request).then((r) => r || caches.match('/')))
+    )
+    return
+  }
+
+  // Assets estáticos — cache first
+  event.respondWith(
+    caches.match(request).then((cached) => cached || fetch(request))
+  )
 })
