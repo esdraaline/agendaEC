@@ -1,4 +1,4 @@
-const CACHE = 'agendaec-v1'
+const CACHE = 'agendaec-v2'
 const OFFLINE_URLS = ['/', '/hoje', '/inbox', '/login']
 
 self.addEventListener('install', (event) => {

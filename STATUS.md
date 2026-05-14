@@ -1,6 +1,6 @@
 # STATUS.md — AgendaEC
 
-Última atualização: 2026-05-13 (fim de sessão)
+Última atualização: 2026-05-14
 
 ---
 
@@ -91,7 +91,7 @@ Status: validação em andamento (código concluído, testes mobile pendentes)
 - [x] Configurar share_target
 - [x] Criar rota /inbox/share
 - [x] Validar instalação PWA (instalou corretamente no celular)
-- [ ] Validar compartilhamento WhatsApp (SW corrigido, pendente reteste)
+- [ ] Validar compartilhamento WhatsApp (GET fix aplicado, pendente reteste após deploy)
 
 ---
 
@@ -107,20 +107,17 @@ Status: validação em andamento (código concluído, testes mobile pendentes)
 
 # Próximo passo concreto
 
-Retomar amanhã (2026-05-14):
-
-1. Aguardar reset do rate limit de email do Supabase (1h a partir de ~15h de 2026-05-13)
-2. Fazer login no celular com novo magic link
-3. Reinstalar PWA após último deploy (SW corrigido)
-4. Testar share_target: WhatsApp → Compartilhar → AgendaEC → Inbox
-5. Configurar SMTP próprio (Resend) para evitar rate limit futuro
-6. Se tudo validado: encerrar Sprint 1 e iniciar Sprint 2 (Inbox + IA)
+1. Push + deploy no Vercel (branch main)
+2. Reinstalar PWA no celular (obrigatório — Android cacheia o manifest na instalação)
+3. Testar share_target: WhatsApp → Compartilhar → AgendaEC → Inbox com texto pré-preenchido
+4. Se OK: encerrar Sprint 1 formalmente e iniciar Sprint 2 (Inbox + IA)
+5. Configurar SMTP próprio (Resend) — pode ficar para Sprint 2
 
 ---
 
 # Bloqueios atuais
 
-- Rate limit de email Supabase (free tier: 2 emails/hora) — resolver configurando SMTP próprio via Resend
+- Nenhum bloqueio crítico. Rate limit de email Supabase pode ser resolvido com SMTP próprio (Resend) — não urgente.
 
 ---
 
@@ -140,14 +137,13 @@ Retomar amanhã (2026-05-14):
 
 Nenhum sprint concluído formalmente ainda.
 
-## Sprint 1 — progresso em 2026-05-13
+## Sprint 1 — progresso em 2026-05-14
 
-Código 100% implementado. Pendente validação mobile final:
 - Magic link funcionando ✅
 - Login no celular ✅
 - PWA instalado ✅
-- share_target WhatsApp ⏳ (reteste após fix do SW)
-- Offline básico ⏳
+- share_target WhatsApp: fix GET aplicado, pendente reteste após deploy ⏳
+- Offline básico ⏳ (retry + reconexão automática — deixado para Sprint 2)
 
 ---
 
