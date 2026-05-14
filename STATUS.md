@@ -22,7 +22,7 @@ Este documento deve responder rapidamente:
 
 ## Sprint 1 — Fundação
 
-Status: validação em andamento (código concluído, testes mobile pendentes)
+Status: concluída
 
 ---
 
@@ -91,7 +91,7 @@ Status: validação em andamento (código concluído, testes mobile pendentes)
 - [x] Configurar share_target
 - [x] Criar rota /inbox/share
 - [x] Validar instalação PWA (instalou corretamente no celular)
-- [ ] Validar compartilhamento WhatsApp (GET fix aplicado, pendente reteste após deploy)
+- [x] Decisão registrada: Web Share Target removido do MVP inicial
 
 ---
 
@@ -107,17 +107,21 @@ Status: validação em andamento (código concluído, testes mobile pendentes)
 
 # Próximo passo concreto
 
-1. Push + deploy no Vercel (branch main)
-2. Reinstalar PWA no celular (obrigatório — Android cacheia o manifest na instalação)
-3. Testar share_target: WhatsApp → Compartilhar → AgendaEC → Inbox com texto pré-preenchido
-4. Se OK: encerrar Sprint 1 formalmente e iniciar Sprint 2 (Inbox + IA)
-5. Configurar SMTP próprio (Resend) — pode ficar para Sprint 2
+Iniciar Sprint 2 — Inbox + IA
+
+Objetivos imediatos:
+
+1. Implementar Inbox textual manual
+2. Persistência simples do Inbox
+3. Parser determinístico inicial
+4. Fluxo captura → inbox → tarefa
+5. Refinar UX mobile
 
 ---
 
 # Bloqueios atuais
 
-- Nenhum bloqueio crítico. Rate limit de email Supabase pode ser resolvido com SMTP próprio (Resend) — não urgente.
+Nenhum bloqueio crítico no momento.
 
 ---
 
@@ -130,19 +134,24 @@ Status: validação em andamento (código concluído, testes mobile pendentes)
 - Não adicionar WhatsApp automático
 - Priorizar previsibilidade e simplicidade
 - Mobile first sempre
+- Web Share Target removido do MVP inicial
+- Captura inicial será manual/textual
+- Suporte a mídia e compartilhamento Android adiado para pós-MVP
+- SMTP próprio (Resend) adiado para pós-MVP
+- Rate limit do Supabase free tier permanece conhecido
+- Limitação aceitável durante desenvolvimento inicial
+- Revisar estratégia de email antes de onboarding real de usuários
 
 ---
 
 # Histórico de Sprints Concluídos
 
-Nenhum sprint concluído formalmente ainda.
-
-## Sprint 1 — progresso em 2026-05-14
+## Sprint 1 — Fundação (concluída em 2026-05-14)
 
 - Magic link funcionando ✅
 - Login no celular ✅
 - PWA instalado ✅
-- share_target WhatsApp: fix GET aplicado, pendente reteste após deploy ⏳
+- Web Share Target removido do MVP inicial por complexidade operacional ✅
 - Offline básico ⏳ (retry + reconexão automática — deixado para Sprint 2)
 
 ---

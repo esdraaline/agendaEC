@@ -394,6 +394,16 @@ Estabilizar o produto em uso diário real.
 
 ---
 
+## Infraestrutura operacional
+
+- SMTP próprio (Resend)
+- observabilidade mínima
+- backups
+- políticas de retenção
+- hardening básico
+
+---
+
 # Regras do roadmap
 
 O roadmap deve:

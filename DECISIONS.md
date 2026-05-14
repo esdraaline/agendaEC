@@ -1,6 +1,6 @@
 # DECISIONS.md — AgendaEC
 
-Última revisão: 2026-05-13
+Última revisão: 2026-05-14
 
 ---
 
@@ -556,6 +556,64 @@ Variáveis: `{nome}`, `{saldo}`
 
 - ROADMAP.md e SPRINT_LOG.md não devem mais conter o texto literal dos templates — apenas referência a esta entrada
 - qualquer alteração de template deve ser registrada aqui como nova sub-versão
+
+---
+
+# DEC-016 — Remoção temporária do Web Share Target
+
+## Data
+
+2026-05-14
+
+## Decisão
+
+O suporte a Web Share Target (texto/imagens via Android share sheet) foi removido do MVP inicial.
+
+---
+
+## Motivo
+
+- inconsistências entre Android/WhatsApp/Chrome
+- alta complexidade operacional para baixo valor imediato
+- necessidade de preservar simplicidade do MVP
+- foco no fluxo principal de captura manual textual
+
+---
+
+## Consequência
+
+- captura inicial via Inbox textual manual
+- suporte a compartilhamento e mídia poderá retornar pós-MVP
+- código existente (manifest.json, sw.js, rota /inbox/share) preservado
+
+---
+
+# DEC-017 — SMTP próprio removido do MVP inicial
+
+## Data
+
+2026-05-14
+
+## Decisão
+
+A configuração de SMTP próprio via Resend foi adiada para pós-MVP.
+
+---
+
+## Motivo
+
+- autenticação atual é suficiente para desenvolvimento e validação inicial
+- não é bloqueador do fluxo principal do produto
+- reduz complexidade operacional e dependências externas
+- prioridade atual é validar captura operacional e Inbox
+
+---
+
+## Consequência
+
+- rate limit do Supabase free tier permanece ativo
+- aceitável durante fase inicial de desenvolvimento
+- revisar antes de onboarding real de usuários
 
 ---
 
