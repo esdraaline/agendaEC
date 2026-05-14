@@ -1,20 +1,22 @@
 'use client'
 
-import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { Suspense, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useAuthStore } from '@/stores/authStore'
 import LoginForm from '@/components/features/auth/LoginForm'
 import FullPageSpinner from '@/components/shared/FullPageSpinner'
 
-export default function LoginPage() {
+function LoginContent() {
   const { session, loading } = useAuthStore()
   const router = useRouter()
+  const searchParams = useSearchParams()
 
   useEffect(() => {
     if (!loading && session) {
-      router.replace('/hoje')
+      const next = searchParams.get('next') ?? '/hoje'
+      router.replace(next)
     }
-  }, [session, loading, router])
+  }, [session, loading, router, searchParams])
 
   if (loading) return <FullPageSpinner />
 
@@ -26,5 +28,13 @@ export default function LoginPage() {
         <LoginForm />
       </div>
     </main>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<FullPageSpinner />}>
+      <LoginContent />
+    </Suspense>
   )
 }
