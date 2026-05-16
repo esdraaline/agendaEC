@@ -3,6 +3,7 @@ import { useQueueStore } from '@/stores/queueStore'
 import { useContextStore } from '@/stores/contextStore'
 import { useAuthStore } from '@/stores/authStore'
 import { PendingMutation } from '@/types/sync'
+import { Task } from '@/types/task'
 
 export async function syncPendingMutations() {
   const queue = useQueueStore.getState()
@@ -52,8 +53,8 @@ async function runSync({ mutations, markSynced, clearSynced, storeId, userId }: 
 
 async function processMutation(mutation: PendingMutation, storeId: string, userId?: string) {
   switch (mutation.type) {
-    case 'task_create':
-      const payload = mutation.payload as any
+    case 'task_create': {
+      const payload = mutation.payload as Task
       const { error: createError } = await supabase
         .from('tasks')
         .insert({
@@ -68,22 +69,25 @@ async function processMutation(mutation: PendingMutation, storeId: string, userI
         })
       if (createError) throw createError
       break
+    }
 
-    case 'task_update':
+    case 'task_update': {
       const { error: updateError } = await supabase
         .from('tasks')
-        .update(mutation.payload as any)
+        .update(mutation.payload as Partial<Task>)
         .eq('id', mutation.entityId)
       if (updateError) throw updateError
       break
+    }
 
-    case 'task_delete':
+    case 'task_delete': {
       const { error: deleteError } = await supabase
         .from('tasks')
         .delete()
         .eq('id', mutation.entityId)
       if (deleteError) throw deleteError
       break
+    }
 
     default:
       console.debug(`[SyncEngine] Unknown mutation type: ${mutation.type}`)
