@@ -12,7 +12,7 @@ interface TasksState {
 
 export const useTasksStore = create<TasksState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       tasks: [],
       addTask: (task) => {
         set((state) => ({
