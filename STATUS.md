@@ -1,6 +1,6 @@
 # STATUS.md — AgendaEC
 
-Última atualização: 2026-05-14
+Última atualização: 2026-05-16
 
 ---
 
@@ -20,7 +20,7 @@ Este documento deve responder rapidamente:
 
 # Sprint Atual
 
-## Sprint 1 — Fundação
+## Sprint 2 — Inbox + IA (Parser Determinístico)
 
 Status: concluída
 
@@ -28,7 +28,7 @@ Status: concluída
 
 # Checklist Atual
 
-## Estrutura Inicial
+## Estrutura Inicial (Sprint 1)
 
 - [x] Definição da stack oficial
 - [x] Definição da arquitetura
@@ -41,7 +41,7 @@ Status: concluída
 
 ---
 
-## Setup do Projeto
+## Setup do Projeto (Sprint 1)
 
 - [x] Scaffold Next.js 14
 - [x] Configuração TypeScript
@@ -56,66 +56,41 @@ Status: concluída
 
 ---
 
-## Banco de Dados
+## Inbox + Parser (Sprint 2)
 
-- [x] Criar tabela stores (migration gerada)
-- [x] Criar tabela store_users (migration gerada)
-- [x] Criar tabela clients (migration gerada)
-- [x] Criar tabela entries (migration gerada)
-- [x] Criar tabela sales (migration gerada)
-- [x] Criar tabela payments (migration gerada)
-- [x] Criar tabela deliveries (migration gerada)
-- [x] Criar tabela tasks (migration gerada)
-- [x] Criar tabela appointments (migration gerada)
-- [x] Criar tabela wa_messages (migration gerada)
-- [x] Criar tabela wa_templates (migration gerada)
-- [x] Criar tabela daily_closings (migration gerada)
-- [x] Criar tabela audit_logs (migration gerada)
-- [x] Aplicar migration no Supabase (aplicada manualmente)
+- [x] Criar store Zustand persistida para Inbox (`inboxStore.ts`)
+- [x] Criar store Zustand persistida para Tarefas (`tasksStore.ts`)
+- [x] Versionamento e preparação offline segura para stores
+- [x] Criar tipos de domínio (`InboxEntry`, `Task`)
+- [x] Interface mobile-first para captura textual (`InboxInput`)
+- [x] Interface para gerenciamento da fila e tarefas (`InboxList`, `TaskList`)
+- [x] Implementar parser determinístico limpo e isolado (`src/lib/ai/`)
+- [x] Suporte robusto a extração de datas (hoje, amanhã, dias da semana, DD/MM)
+- [x] Suporte robusto a níveis de prioridade
+- [x] Normalização inteligente (remoção de acentos e espaços extras)
+- [x] Fluxo de conversão (Captura → Processamento → Tarefa)
+- [x] Proteção de autenticação na rota `/inbox` restabelecida
 
 ---
 
-## Segurança
+## Banco de Dados & Infra
 
-- [x] Ativar RLS em todas as tabelas (na migration)
-- [x] Criar policies baseadas em store_id (na migration)
-- [x] Criar policy owner_access (stores_escrita)
-- [x] Criar policy audit_access (audit_logs_leitura_owner)
-- [x] Validar segregação de dados (RLS aplicado)
-
----
-
-## PWA
-
-- [x] Criar manifest.json
-- [x] Configurar share_target
-- [x] Criar rota /inbox/share
-- [x] Validar instalação PWA (instalou corretamente no celular)
-- [x] Decisão registrada: Web Share Target removido do MVP inicial
-
----
-
-## Offline
-
-- [x] Criar PendingMutation[]
-- [x] Persistência local (localStorage + Zustand persist)
-- [ ] Retry simples
-- [ ] Reconexão automática
-- [x] Cache básico
+- [x] Tabelas base migradas e RLS ativo
+- [ ] Sincronização Supabase (Fila Offline → Banco Remoto) — *Adiado para próximas etapas*
+- [ ] Retry offline e reconexão automática — *Adiado para próximas etapas*
 
 ---
 
 # Próximo passo concreto
 
-Iniciar Sprint 2 — Inbox + IA
+Iniciar Sprint 3 — Hoje + Vendas + Clientes
 
 Objetivos imediatos:
 
-1. Implementar Inbox textual manual
-2. Persistência simples do Inbox
-3. Parser determinístico inicial
-4. Fluxo captura → inbox → tarefa
-5. Refinar UX mobile
+1. Implementar a sincronização da fila offline local com o Supabase (para Tasks e Entries).
+2. Criar a tela "Hoje" consolidando o faturamento do dia e tarefas pendentes.
+3. Iniciar o CRUD e persistência remota do módulo de Vendas (Sales).
+4. Preparar o perfil básico do Cliente (Clients) integrado à captura de dados.
 
 ---
 
@@ -127,32 +102,24 @@ Nenhum bloqueio crítico no momento.
 
 # Observações operacionais
 
-- Não expandir escopo do MVP
-- Não criar SaaS
-- Não implementar multi-tenant complexo
-- Não adicionar automações avançadas
-- Não adicionar WhatsApp automático
-- Priorizar previsibilidade e simplicidade
-- Mobile first sempre
-- Web Share Target removido do MVP inicial
-- Captura inicial será manual/textual
-- Suporte a mídia e compartilhamento Android adiado para pós-MVP
-- SMTP próprio (Resend) adiado para pós-MVP
-- Rate limit do Supabase free tier permanece conhecido
-- Limitação aceitável durante desenvolvimento inicial
-- Revisar estratégia de email antes de onboarding real de usuários
+- IA probabilística e NLP foram temporariamente descartados em favor de um parser puramente determinístico para garantir previsibilidade e facilidade de depuração nesta fase do MVP.
+- O parser atual funciona 100% offline e de forma instantânea (síncrona).
+- A UX mobile-first provou-se altamente eficaz; manter a regra de "simplicidade > abstração" para o restante do projeto.
+- Não expandir escopo do MVP nem criar SaaS.
+- Priorizar previsibilidade e simplicidade sempre.
 
 ---
 
 # Histórico de Sprints Concluídos
 
 ## Sprint 1 — Fundação (concluída em 2026-05-14)
+- Magic link, PWA, e banco base funcionando ✅
 
-- Magic link funcionando ✅
-- Login no celular ✅
-- PWA instalado ✅
-- Web Share Target removido do MVP inicial por complexidade operacional ✅
-- Offline básico ⏳ (retry + reconexão automática — deixado para Sprint 2)
+## Sprint 2 — Inbox + Parser (concluída em 2026-05-16)
+- Captura de texto ágil e local ✅
+- Transformação determinística textual → Tarefa ✅
+- Persistência offline-first robusta (Zustand) ✅
+- UX refinada para mobile (contadores, empty states) ✅
 
 ---
 

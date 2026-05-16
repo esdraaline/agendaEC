@@ -1,28 +1,46 @@
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
-import type { Task } from '@/types'
+import { persist, createJSONStorage } from 'zustand/middleware'
+import { Task } from '@/types/task'
 
 interface TasksState {
   tasks: Task[]
-  setTasks: (tasks: Task[]) => void
   addTask: (task: Task) => void
-  updateTask: (id: string, patch: Partial<Task>) => void
   removeTask: (id: string) => void
+  toggleTask: (id: string) => void
 }
 
 export const useTasksStore = create<TasksState>()(
   persist(
     (set) => ({
       tasks: [],
-      setTasks: (tasks) => set({ tasks }),
-      addTask: (task) => set((s) => ({ tasks: [...s.tasks, task] })),
-      updateTask: (id, patch) =>
-        set((s) => ({
-          tasks: s.tasks.map((t) => (t.id === id ? { ...t, ...patch } : t)),
-        })),
+      addTask: (task) =>
+        set((state) => {
+          console.debug('[Tasks] Task added', task)
+          return {
+            tasks: [task, ...state.tasks],
+          }
+        }),
       removeTask: (id) =>
-        set((s) => ({ tasks: s.tasks.filter((t) => t.id !== id) })),
+        set((state) => {
+          console.debug('[Tasks] Task removed', id)
+          return {
+            tasks: state.tasks.filter((t) => t.id !== id),
+          }
+        }),
+      toggleTask: (id) =>
+        set((state) => {
+          console.debug('[Tasks] Task toggled', id)
+          return {
+            tasks: state.tasks.map((t) =>
+              t.id === id ? { ...t, completed: !t.completed } : t
+            ),
+          }
+        }),
     }),
-    { name: 'agendaec:tasks' }
+    {
+      name: 'agendaec-tasks',
+      version: 1,
+      storage: createJSONStorage(() => localStorage),
+    }
   )
 )
