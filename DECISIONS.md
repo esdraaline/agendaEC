@@ -724,6 +724,32 @@ Utilizar normalização explícita (`value.slice(0, 10)`) para comparações de 
 
 ---
 
+# DEC-022 — Contexto Explícito para Captura de Vendas
+
+## Data
+
+2026-05-16
+
+## Decisão
+
+A classificação de vendas via Inbox exige:
+- valor monetário detectado
+- contexto explícito de venda
+
+---
+
+## Motivo
+
+Evitar falsos positivos em entradas contendo números não financeiros (ex: "ligar às 15h").
+
+---
+
+## Consequência
+
+O parser utiliza uma lista de palavras-chave explícitas (`SALE_KEYWORDS`) antes de classificar uma entrada como `sale`. Caso contrário, a entrada é tratada como `task`.
+
+---
+
 # Regra final
 
 Toda nova decisão deve responder:

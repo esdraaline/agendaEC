@@ -93,6 +93,7 @@ Status: em planejamento
 - [x] Implementar listagem e busca de Clientes
 - [x] Implementar criação rápida de Vendas e Clientes
 - [x] Garantir sincronização offline-first para Vendas e Clientes
+- [x] Hardening do parser monetário com contexto explícito
 
 ---
 
