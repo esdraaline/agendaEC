@@ -617,6 +617,36 @@ A configuração de SMTP próprio via Resend foi adiada para pós-MVP.
 
 ---
 
+# DEC-018 — Sincronização Offline-First com Fila Sequencial
+
+## Data
+
+2026-05-16
+
+## Decisão
+
+Implementar sincronização offline baseada em uma fila de mutações (`PendingMutation[]`) processada de forma estritamente sequencial e manual.
+
+---
+
+## Motivo
+
+- Garantir que a ordem das operações do usuário seja preservada (ex: Criar -> Editar -> Deletar).
+- Minimizar conflitos de concorrência sem a complexidade de CRDTs.
+- Oferecer controle total ao usuário sobre quando os dados são enviados para a nuvem.
+- Manter a UI 100% responsiva e independente da conectividade.
+
+---
+
+## Consequência
+
+- As stores locais (ex: `tasksStore`) são responsáveis por registrar mutações no `queueStore`.
+- O `syncEngine` processa a fila uma por uma, parando no primeiro erro para evitar estados inconsistentes no servidor.
+- É necessário um botão explícito de "Sincronizar" na interface.
+- A aplicação utiliza `unknown` para payloads de mutação, exigindo tratamento tipado no motor de sincronização.
+
+---
+
 # Regra final
 
 Toda nova decisão deve responder:

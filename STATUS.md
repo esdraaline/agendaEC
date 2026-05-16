@@ -20,9 +20,9 @@ Este documento deve responder rapidamente:
 
 # Sprint Atual
 
-## Sprint 2 — Inbox + IA (Parser Determinístico)
+## Sprint 4 — Hoje + Vendas + Clientes
 
-Status: concluída
+Status: em planejamento
 
 ---
 
@@ -73,24 +73,34 @@ Status: concluída
 
 ---
 
+## Offline Sync (Sprint 3)
+
+- [x] Criar store de fila de mutações (`queueStore.ts`)
+- [x] Implementar motor de sincronização sequencial (`syncEngine.ts`)
+- [x] Integrar rastreamento de mutações no `tasksStore`
+- [x] Interface manual de sincronização em Configurações
+- [x] Garantir persistência offline da fila de sincronização
+- [x] Suporte a Create, Update e Delete de Tarefas via Sync
+
+---
+
 ## Banco de Dados & Infra
 
 - [x] Tabelas base migradas e RLS ativo
-- [ ] Sincronização Supabase (Fila Offline → Banco Remoto) — *Adiado para próximas etapas*
+- [x] Sincronização Supabase (Fila Offline → Banco Remoto)
 - [ ] Retry offline e reconexão automática — *Adiado para próximas etapas*
 
 ---
 
 # Próximo passo concreto
 
-Iniciar Sprint 3 — Hoje + Vendas + Clientes
+Iniciar Sprint 4 — Hoje + Vendas + Clientes
 
 Objetivos imediatos:
 
-1. Implementar a sincronização da fila offline local com o Supabase (para Tasks e Entries).
-2. Criar a tela "Hoje" consolidando o faturamento do dia e tarefas pendentes.
-3. Iniciar o CRUD e persistência remota do módulo de Vendas (Sales).
-4. Preparar o perfil básico do Cliente (Clients) integrado à captura de dados.
+1. Criar a tela "Hoje" consolidando o faturamento do dia e tarefas pendentes.
+2. Iniciar o CRUD e persistência remota do módulo de Vendas (Sales).
+3. Preparar o perfil básico do Cliente (Clients) integrado à captura de dados.
 
 ---
 
@@ -102,11 +112,9 @@ Nenhum bloqueio crítico no momento.
 
 # Observações operacionais
 
-- IA probabilística e NLP foram temporariamente descartados em favor de um parser puramente determinístico para garantir previsibilidade e facilidade de depuração nesta fase do MVP.
-- O parser atual funciona 100% offline e de forma instantânea (síncrona).
-- A UX mobile-first provou-se altamente eficaz; manter a regra de "simplicidade > abstração" para o restante do projeto.
-- Não expandir escopo do MVP nem criar SaaS.
-- Priorizar previsibilidade e simplicidade sempre.
+- O sistema de sincronização offline-first é manual e sequencial por design, priorizando a integridade dos dados e a simplicidade operacional.
+- O parser determinístico continua sendo a peça central da captura rápida de dados.
+- A arquitetura desacoplada do `syncEngine` permite expansão futura para outros domínios (vendas, clientes) com baixo esforço.
 
 ---
 
@@ -118,8 +126,11 @@ Nenhum bloqueio crítico no momento.
 ## Sprint 2 — Inbox + Parser (concluída em 2026-05-16)
 - Captura de texto ágil e local ✅
 - Transformação determinística textual → Tarefa ✅
-- Persistência offline-first robusta (Zustand) ✅
-- UX refinada para mobile (contadores, empty states) ✅
+
+## Sprint 3 — Offline-First Sync (concluída em 2026-05-16)
+- Sincronização manual e sequencial com Supabase ✅
+- Fila de mutações persistente e segura ✅
+- Gerenciamento de estado de sincronização na UI ✅
 
 ---
 
