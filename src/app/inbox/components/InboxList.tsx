@@ -2,6 +2,7 @@
 
 import { useInboxStore } from '@/stores/inboxStore'
 import { useTasksStore } from '@/stores/tasksStore'
+import { useSalesStore } from '@/stores/salesStore'
 import { parseEntry } from '@/lib/ai/parseEntry'
 
 export default function InboxList() {
@@ -12,6 +13,7 @@ export default function InboxList() {
   )
   const markProcessed = useInboxStore((state) => state.markProcessed)
   const addTask = useTasksStore((state) => state.addTask)
+  const addSale = useSalesStore((state) => state.addSale)
 
   if (entries.length === 0) {
     return (
@@ -36,8 +38,12 @@ export default function InboxList() {
           <p className="text-base leading-relaxed text-gray-800">{entry.raw_text}</p>
           <button
             onClick={() => {
-              const task = parseEntry(entry)
-              addTask(task)
+              const result = parseEntry(entry)
+              if (result.type === 'task') {
+                addTask(result.data)
+              } else if (result.type === 'sale') {
+                addSale(result.data)
+              }
               markProcessed(entry.id)
             }}
             className="self-end rounded-xl bg-indigo-50 px-5 py-2.5 text-sm font-bold text-indigo-700 active:bg-indigo-100 transition-colors"

@@ -20,7 +20,7 @@ Este documento deve responder rapidamente:
 
 # Sprint Atual
 
-## Sprint 4 — Hoje + Vendas + Clientes
+## Sprint 5 — WhatsApp + Cobranças
 
 Status: em planejamento
 
@@ -84,6 +84,18 @@ Status: em planejamento
 
 ---
 
+## Hoje + Vendas + Clientes (Sprint 4)
+
+- [x] Criar store Zustand persistida para Vendas (`salesStore.ts`)
+- [x] Criar store Zustand persistida para Clientes (`clientsStore.ts`)
+- [x] Implementar tela "Hoje" consolidada (Faturamento + Tarefas)
+- [x] Integrar captura de Vendas no Inbox (Parser de valores)
+- [x] Implementar listagem e busca de Clientes
+- [x] Implementar criação rápida de Vendas e Clientes
+- [x] Garantir sincronização offline-first para Vendas e Clientes
+
+---
+
 ## Banco de Dados & Infra
 
 - [x] Tabelas base migradas e RLS ativo
@@ -94,13 +106,13 @@ Status: em planejamento
 
 # Próximo passo concreto
 
-Iniciar Sprint 4 — Hoje + Vendas + Clientes
+Iniciar Sprint 5 — WhatsApp + Cobranças
 
 Objetivos imediatos:
 
-1. Criar a tela "Hoje" consolidando o faturamento do dia e tarefas pendentes.
-2. Iniciar o CRUD e persistência remota do módulo de Vendas (Sales).
-3. Preparar o perfil básico do Cliente (Clients) integrado à captura de dados.
+1. Implementar botão "Cobrar" integrado ao WhatsApp via `wa.me`.
+2. Criar sistema de templates para mensagens rápidas.
+3. Tela de cobranças pendentes (saldos negativos).
 
 ---
 
@@ -112,9 +124,9 @@ Nenhum bloqueio crítico no momento.
 
 # Observações operacionais
 
-- O sistema de sincronização offline-first é manual e sequencial por design, priorizando a integridade dos dados e a simplicidade operacional.
-- O parser determinístico continua sendo a peça central da captura rápida de dados.
-- A arquitetura desacoplada do `syncEngine` permite expansão futura para outros domínios (vendas, clientes) com baixo esforço.
+- A integração de Vendas no Inbox utiliza detecção determinística de valores monetários.
+- A tela Hoje prioriza a visibilidade imediata do faturamento e recebimentos do dia.
+- O domínio de Clientes foi mantido mínimo (sem tags) para focar na operação de saldo e contato.
 
 ---
 
@@ -129,8 +141,11 @@ Nenhum bloqueio crítico no momento.
 
 ## Sprint 3 — Offline-First Sync (concluída em 2026-05-16)
 - Sincronização manual e sequencial com Supabase ✅
-- Fila de mutações persistente e segura ✅
-- Gerenciamento de estado de sincronização na UI ✅
+
+## Sprint 4 — Hoje + Vendas + Clientes (concluída em 2026-05-16)
+- Resumo diário consolidado ✅
+- Módulos de Vendas e Clientes operacionais ✅
+- Captura inteligente de vendas via Inbox ✅
 
 ---
 

@@ -4,6 +4,8 @@ import { useContextStore } from '@/stores/contextStore'
 import { useAuthStore } from '@/stores/authStore'
 import { PendingMutation } from '@/types/sync'
 import { Task } from '@/types/task'
+import { Sale } from '@/types/sale'
+import { Client } from '@/types/client'
 
 export async function syncPendingMutations() {
   const queue = useQueueStore.getState()
@@ -84,6 +86,87 @@ async function processMutation(mutation: PendingMutation, storeId: string, userI
       const { error: deleteError } = await supabase
         .from('tasks')
         .delete()
+        .eq('id', mutation.entityId)
+      if (deleteError) throw deleteError
+      break
+    }
+
+    case 'sale_create': {
+      const payload = mutation.payload as Sale
+      const { error: createError } = await supabase
+        .from('sales')
+        .insert({
+          id: payload.id,
+          store_id: storeId,
+          client_id: payload.client_id,
+          entry_id: payload.entry_id,
+          description: payload.description,
+          total_amount: payload.total_amount,
+          paid_amount: payload.paid_amount,
+          status: payload.status,
+          notes: payload.notes,
+          origin: payload.origin,
+          sale_date: payload.sale_date,
+          created_at: payload.created_at,
+          updated_at: payload.updated_at,
+        })
+      if (createError) throw createError
+      break
+    }
+
+    case 'sale_update': {
+      const { error: updateError } = await supabase
+        .from('sales')
+        .update(mutation.payload as Partial<Sale>)
+        .eq('id', mutation.entityId)
+      if (updateError) throw updateError
+      break
+    }
+
+    case 'sale_delete': {
+      // DEC-010: Soft Delete Obrigatório
+      const payload = mutation.payload as Partial<Sale>
+      const { error: deleteError } = await supabase
+        .from('sales')
+        .update({ deleted_at: payload.deleted_at })
+        .eq('id', mutation.entityId)
+      if (deleteError) throw deleteError
+      break
+    }
+
+    case 'client_create': {
+      const payload = mutation.payload as Client
+      const { error: createError } = await supabase
+        .from('clients')
+        .insert({
+          id: payload.id,
+          store_id: storeId,
+          name: payload.name,
+          phone: payload.phone,
+          notes: payload.notes,
+          balance: payload.balance,
+          created_at: payload.created_at,
+          updated_at: payload.updated_at,
+        })
+      if (createError) throw createError
+      break
+    }
+
+    case 'client_update': {
+      const { error: updateError } = await supabase
+        .from('clients')
+        .update(mutation.payload as Partial<Client>)
+        .eq('id', mutation.entityId)
+      if (updateError) throw updateError
+      break
+    }
+
+    case 'client_delete': {
+      // DEC-010: Soft Delete Obrigatório
+      const payload = mutation.payload as Partial<Client>
+      const { error: deleteError } = await supabase
+        .from('clients')
+        .update({ deleted_at: payload.deleted_at })
         .eq('id', mutation.entityId)
       if (deleteError) throw deleteError
       break

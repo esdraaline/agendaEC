@@ -647,6 +647,83 @@ Implementar sincronização offline baseada em uma fila de mutações (`PendingM
 
 ---
 
+# DEC-019 — Captura Determinística de Vendas via Inbox
+
+## Data
+
+2026-05-16
+
+## Decisão
+
+O parser do Inbox foi estendido para identificar vendas automaticamente com base na detecção de valores monetários.
+
+---
+
+## Motivo
+
+- Manter a filosofia de "IA invisível" e captura rápida.
+- Reduzir a necessidade de formulários manuais para vendas simples.
+
+---
+
+## Consequência
+
+- Entradas contendo padrões de moeda (ex: "R$ 150", "150,00") são classificadas como `sale`.
+- O parser gera um objeto `Sale` em vez de `Task`.
+- O processamento na Inbox decide qual store (`tasksStore` ou `salesStore`) alimentar.
+
+---
+
+# DEC-020 — Soft Delete para Domínios Operacionais
+
+## Data
+
+2026-05-16
+
+## Decisão
+
+Implementação estrita de soft delete (`deleted_at`) para as tabelas de `sales` e `clients`.
+
+---
+
+## Motivo
+
+- Conforme **DEC-010**, preservar histórico financeiro e de contatos é crítico.
+- Evitar que erros de sincronização ou exclusões acidentais removam dados permanentemente.
+
+---
+
+## Consequência
+
+- O `syncEngine` utiliza `update({ deleted_at: ... })` em vez de `delete()` para esses domínios.
+- As stores locais filtram registros onde `deleted_at` é não-nulo.
+
+---
+
+# DEC-021 — Normalização de Datas para Resumo Diário
+
+## Data
+
+2026-05-16
+
+## Decisão
+
+Utilizar normalização explícita (`value.slice(0, 10)`) para comparações de data nos filtros de UI.
+
+---
+
+## Motivo
+
+- Prevenir bugs causados por timestamps ISO ou variações de timezone ao comparar `yyyy-MM-dd`.
+
+---
+
+## Consequência
+
+- Filtros na tela "Hoje" e similares utilizam uma função local de normalização para garantir determinismo temporal.
+
+---
+
 # Regra final
 
 Toda nova decisão deve responder:
