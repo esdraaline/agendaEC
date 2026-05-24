@@ -5,11 +5,16 @@ import { useRequireAuth } from '@/hooks/useRequireAuth'
 import Layout from '@/components/shared/Layout'
 import FullPageSpinner from '@/components/shared/FullPageSpinner'
 import { useClientsStore } from '@/stores/clientsStore'
-import { Search, Plus } from 'lucide-react'
+import { useTemplatesStore } from '@/stores/templatesStore'
+import { buildWaLink } from '@/lib/whatsapp/deeplink'
+import { parseTemplate } from '@/lib/whatsapp/templates'
+import { Button } from '@/components/ui/button'
+import { Search, Plus, MessageCircle } from 'lucide-react'
 
 export default function ClientesPage() {
   const { loading } = useRequireAuth()
   const { clients, addClient } = useClientsStore()
+  const { templates } = useTemplatesStore()
   const [searchTerm, setSearchTerm] = useState('')
   const [isAdding, setIsAdding] = useState(false)
   const [newName, setNewName] = useState('')
@@ -44,6 +49,26 @@ export default function ClientesPage() {
       (c.phone && c.phone.includes(searchTerm))
     )
     .sort((a, b) => a.name.localeCompare(b.name))
+
+  const handleCobrar = (client: typeof clients[0]) => {
+    if (!client.phone) return
+
+    const template = templates[0]
+    if (!template) {
+      alert('Nenhum template de cobrança configurado.')
+      return
+    }
+
+    const valorDevido = Math.abs(client.balance).toFixed(2).replace('.', ',')
+    
+    const message = parseTemplate(template.content, {
+      nome: client.name,
+      saldo: `R$ ${valorDevido}`,
+    })
+
+    const link = buildWaLink(client.phone, message)
+    window.open(link, '_blank')
+  }
 
   return (
     <Layout>
@@ -115,21 +140,38 @@ export default function ClientesPage() {
             filteredClients.map((client) => (
               <div 
                 key={client.id}
-                className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm flex items-center justify-between active:bg-gray-50 transition-colors"
+                className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm flex flex-col gap-3 active:bg-gray-50 transition-colors"
               >
-                <div>
-                  <h3 className="font-semibold text-gray-900">{client.name}</h3>
-                  {client.phone && (
-                    <p className="text-xs text-gray-500 mt-0.5">{client.phone}</p>
-                  )}
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="font-semibold text-gray-900">{client.name}</h3>
+                    {client.phone && (
+                      <p className="text-xs text-gray-500 mt-0.5">{client.phone}</p>
+                    )}
+                  </div>
+                  <div className="text-right">
+                    <p className={`text-sm font-bold ${client.balance < 0 ? 'text-red-500' : client.balance > 0 ? 'text-green-600' : 'text-gray-400'}`}>
+                      {client.balance < 0 ? `Deve R$ ${Math.abs(client.balance).toFixed(2).replace('.', ',')}` : 
+                       client.balance > 0 ? `Crédito R$ ${client.balance.toFixed(2).replace('.', ',')}` : 
+                       'Saldo zerado'}
+                    </p>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <p className={`text-sm font-bold ${client.balance < 0 ? 'text-red-500' : client.balance > 0 ? 'text-green-600' : 'text-gray-400'}`}>
-                    {client.balance < 0 ? `Deve R$ ${Math.abs(client.balance).toFixed(2).replace('.', ',')}` : 
-                     client.balance > 0 ? `Crédito R$ ${client.balance.toFixed(2).replace('.', ',')}` : 
-                     'Saldo zerado'}
-                  </p>
-                </div>
+
+                {client.balance < 0 && client.phone && (
+                  <div className="pt-2 border-t border-gray-50">
+                    <Button 
+                      className="w-full bg-green-600 hover:bg-green-700 text-white flex items-center justify-center gap-2 font-bold h-9 text-sm"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleCobrar(client)
+                      }}
+                    >
+                      <MessageCircle size={16} />
+                      Cobrar
+                    </Button>
+                  </div>
+                )}
               </div>
             ))
           )}

@@ -52,8 +52,22 @@ export default function ConfiguracoesPage() {
           </Button>
         </div>
 
+        <div className="bg-white border rounded-lg p-4 shadow-sm">
+          <h2 className="font-medium mb-2">WhatsApp</h2>
+          <p className="text-sm text-gray-600 mb-4">
+            Gerencie os templates de mensagens rápidas.
+          </p>
+          <Button 
+            variant="outline"
+            className="w-full flex items-center justify-center gap-2"
+            onClick={() => window.location.href = '/configuracoes/templates'}
+          >
+            Editar Templates
+          </Button>
+        </div>
+
         <div className="text-xs text-gray-400 text-center">
-          Versão 0.3.0 — Offline-First Sync
+          Versão 0.4.0 — WhatsApp + Cobranças
         </div>
       </div>
     </Layout>

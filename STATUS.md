@@ -22,7 +22,7 @@ Este documento deve responder rapidamente:
 
 ## Sprint 5 — WhatsApp + Cobranças
 
-Status: em planejamento
+Status: concluída em 2026-05-23
 
 ---
 
@@ -107,13 +107,11 @@ Status: em planejamento
 
 # Próximo passo concreto
 
-Iniciar Sprint 5 — WhatsApp + Cobranças
+Definir e iniciar Sprint 6
 
 Objetivos imediatos:
 
-1. Implementar botão "Cobrar" integrado ao WhatsApp via `wa.me`.
-2. Criar sistema de templates para mensagens rápidas.
-3. Tela de cobranças pendentes (saldos negativos).
+1. Revisar o Backlog e priorizar novas features (ex: Estoque ou Relatórios).
 
 ---
 
@@ -147,6 +145,11 @@ Nenhum bloqueio crítico no momento.
 - Resumo diário consolidado ✅
 - Módulos de Vendas e Clientes operacionais ✅
 - Captura inteligente de vendas via Inbox ✅
+
+## Sprint 5 — WhatsApp + Cobranças (concluída em 2026-05-23)
+- Templates de WhatsApp operacionais ✅
+- Tela de Cobranças pendentes implementada ✅
+- Botão "Cobrar" integrado no módulo de clientes ✅
 
 ---
 
