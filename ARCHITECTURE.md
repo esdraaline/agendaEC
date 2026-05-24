@@ -336,6 +336,26 @@ CREATE TABLE appointments (
 
 ---
 
+## Tabela products
+
+```sql
+CREATE TABLE products (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  store_id UUID REFERENCES stores NOT NULL,
+  name TEXT NOT NULL,
+  sku TEXT,
+  price DECIMAL(10,2),
+  stock_quantity INTEGER DEFAULT 0,
+  min_stock INTEGER DEFAULT 0,
+  category TEXT,
+  deleted_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+```
+
+---
+
 ## Tabela wa_messages
 
 ```sql
@@ -451,6 +471,10 @@ CREATE TRIGGER update_wa_templates_updated_at
 CREATE TRIGGER update_appointments_updated_at
   BEFORE UPDATE ON appointments
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_products_updated_at
+  BEFORE UPDATE ON products
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 ```
 
 ---
@@ -496,6 +520,7 @@ ALTER TABLE payments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE deliveries ENABLE ROW LEVEL SECURITY;
 ALTER TABLE tasks ENABLE ROW LEVEL SECURITY;
 ALTER TABLE appointments ENABLE ROW LEVEL SECURITY;
+ALTER TABLE products ENABLE ROW LEVEL SECURITY;
 ALTER TABLE wa_messages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE wa_templates ENABLE ROW LEVEL SECURITY;
 ALTER TABLE daily_closings ENABLE ROW LEVEL SECURITY;

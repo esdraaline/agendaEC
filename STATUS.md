@@ -107,11 +107,11 @@ Status: concluída em 2026-05-23
 
 # Próximo passo concreto
 
-Definir e iniciar Sprint 6
+Definir e iniciar Sprint 8
 
 Objetivos imediatos:
 
-1. Revisar o Backlog e priorizar novas features (ex: Estoque ou Relatórios).
+1. Iniciar o desenvolvimento do módulo de **Relatórios** (exportação para contador, PDF, ou visão mensal).
 
 ---
 
@@ -155,6 +155,11 @@ Nenhum bloqueio crítico no momento.
 - Central de Entregas e Compromissos ✅
 - Tela de Fechamento de Caixa Diário ✅
 - Fluxo de trabalho operacional completo estabelecido ✅
+
+## Sprint 7 — Módulo de Estoque (concluída em 2026-05-23)
+- Controle e gerenciamento de produtos ✅
+- Alertas de estoque baixo ✅
+- Integração da Central de Estoque na tela Hoje ✅
 
 ---
 

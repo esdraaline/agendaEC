@@ -6,7 +6,7 @@ export interface DailyClosing {
   total_pix: number
   total_card: number
   total_fiado: number
-  summary_data: Record<string, any>
+  summary_data: Record<string, unknown>
   confirmed: boolean
   created_at: string
 }

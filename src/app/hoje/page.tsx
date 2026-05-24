@@ -8,8 +8,9 @@ import { useTasksStore } from '@/stores/tasksStore'
 import { useSalesStore } from '@/stores/salesStore'
 import { useDeliveriesStore } from '@/stores/deliveriesStore'
 import { useAppointmentsStore } from '@/stores/appointmentsStore'
+import { useInventoryStore } from '@/stores/inventoryStore'
 import { format } from 'date-fns'
-import { Plus, DollarSign, Calendar, Lock } from 'lucide-react'
+import { Plus, DollarSign, Calendar, Lock, Package, AlertTriangle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 export default function HojePage() {
@@ -18,6 +19,7 @@ export default function HojePage() {
   const { sales, addSale } = useSalesStore()
   const { deliveries } = useDeliveriesStore()
   const { appointments } = useAppointmentsStore()
+  const { products } = useInventoryStore()
   const router = useRouter()
   const [isAddingSale, setIsAddingSale] = useState(false)
   const [saleAmount, setSaleAmount] = useState('')
@@ -53,7 +55,7 @@ export default function HojePage() {
   }
 
   const today = format(new Date(), 'yyyy-MM-dd')
-  const normalizeDate = (value: string) => value.slice(0, 10)
+  const normalizeDate = (value: string | null) => value ? value.slice(0, 10) : ''
   
   const todaysTasks = tasks.filter(
     (t) =>
@@ -75,6 +77,8 @@ export default function HojePage() {
   const todaysAppointmentsCount = appointments.filter(
     (a) => normalizeDate(a.date) === today
   ).length
+  
+  const lowStockCount = products.filter(p => !p.deleted_at && p.stock_quantity <= p.min_stock).length
   
   const faturamento = todaysSales.reduce((acc, sale) => acc + sale.total_amount, 0)
   const recebido = todaysSales.reduce((acc, sale) => acc + sale.paid_amount, 0)
@@ -164,6 +168,31 @@ export default function HojePage() {
           </div>
           <div className="text-blue-500 bg-blue-50 p-2 rounded-lg font-semibold text-sm">
             Central
+          </div>
+        </div>
+
+        {/* Estoque Summary */}
+        <div 
+          onClick={() => router.push('/estoque')}
+          className="bg-white border rounded-lg p-4 shadow-sm flex items-center justify-between cursor-pointer active:bg-gray-50 transition-colors mt-4"
+        >
+          <div>
+            <h2 className="font-medium text-gray-900 flex items-center gap-2">
+              <Package size={18} className="text-orange-500" />
+              Estoque
+            </h2>
+            <p className="text-sm text-gray-500 mt-1">
+              {lowStockCount > 0 ? (
+                <span className="text-red-500 font-medium flex items-center gap-1">
+                  <AlertTriangle size={14} /> {lowStockCount} produtos com estoque baixo
+                </span>
+              ) : (
+                'Gerenciar produtos e quantidades'
+              )}
+            </p>
+          </div>
+          <div className="text-orange-500 bg-orange-50 p-2 rounded-lg font-semibold text-sm">
+            Ver Estoque
           </div>
         </div>
 
