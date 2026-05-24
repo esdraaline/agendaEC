@@ -20,7 +20,7 @@ Este documento deve responder rapidamente:
 
 # Sprint Atual
 
-## Sprint 5 — WhatsApp + Cobranças
+## Sprint 6 — Agenda, Entregas e Fechamento
 
 Status: concluída em 2026-05-23
 
@@ -150,6 +150,11 @@ Nenhum bloqueio crítico no momento.
 - Templates de WhatsApp operacionais ✅
 - Tela de Cobranças pendentes implementada ✅
 - Botão "Cobrar" integrado no módulo de clientes ✅
+
+## Sprint 6 — Agenda, Entregas e Fechamento (concluída em 2026-05-23)
+- Central de Entregas e Compromissos ✅
+- Tela de Fechamento de Caixa Diário ✅
+- Fluxo de trabalho operacional completo estabelecido ✅
 
 ---
 

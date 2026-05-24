@@ -6,13 +6,19 @@ import Layout from '@/components/shared/Layout'
 import FullPageSpinner from '@/components/shared/FullPageSpinner'
 import { useTasksStore } from '@/stores/tasksStore'
 import { useSalesStore } from '@/stores/salesStore'
+import { useDeliveriesStore } from '@/stores/deliveriesStore'
+import { useAppointmentsStore } from '@/stores/appointmentsStore'
 import { format } from 'date-fns'
-import { Plus, DollarSign } from 'lucide-react'
+import { Plus, DollarSign, Calendar, Lock } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 export default function HojePage() {
   const { loading } = useRequireAuth()
   const { tasks, toggleTask } = useTasksStore()
   const { sales, addSale } = useSalesStore()
+  const { deliveries } = useDeliveriesStore()
+  const { appointments } = useAppointmentsStore()
+  const router = useRouter()
   const [isAddingSale, setIsAddingSale] = useState(false)
   const [saleAmount, setSaleAmount] = useState('')
   const [saleDesc, setSaleDesc] = useState('')
@@ -62,6 +68,13 @@ export default function HojePage() {
       !s.deleted_at &&
       s.status !== 'cancelled'
   )
+  
+  const todaysDeliveriesPending = deliveries.filter(
+    (d) => normalizeDate(d.scheduled_date) === today && !d.deleted_at && d.status !== 'completed' && d.status !== 'cancelled'
+  )
+  const todaysAppointmentsCount = appointments.filter(
+    (a) => normalizeDate(a.date) === today
+  ).length
   
   const faturamento = todaysSales.reduce((acc, sale) => acc + sale.total_amount, 0)
   const recebido = todaysSales.reduce((acc, sale) => acc + sale.paid_amount, 0)
@@ -135,6 +148,25 @@ export default function HojePage() {
           </div>
         </div>
 
+        {/* Central Summary */}
+        <div 
+          onClick={() => router.push('/central')}
+          className="bg-white border rounded-lg p-4 shadow-sm flex items-center justify-between cursor-pointer active:bg-gray-50 transition-colors"
+        >
+          <div>
+            <h2 className="font-medium text-gray-900 flex items-center gap-2">
+              <Calendar size={18} className="text-blue-500" />
+              Agenda e Entregas
+            </h2>
+            <p className="text-sm text-gray-500 mt-1">
+              {todaysDeliveriesPending.length} entregas pendentes • {todaysAppointmentsCount} compromissos
+            </p>
+          </div>
+          <div className="text-blue-500 bg-blue-50 p-2 rounded-lg font-semibold text-sm">
+            Central
+          </div>
+        </div>
+
         {/* Pending Tasks */}
         <div className="bg-white border rounded-lg p-4 shadow-sm">
           <h2 className="font-medium mb-3 flex items-center gap-2">
@@ -170,6 +202,17 @@ export default function HojePage() {
               ))}
             </ul>
           )}
+        </div>
+
+        {/* Fechamento */}
+        <div className="pt-4 border-t border-gray-100 mt-6 pb-20">
+          <button
+            onClick={() => router.push('/fechamento')}
+            className="w-full bg-gray-900 text-white py-3 rounded-xl font-bold active:scale-95 transition-transform flex items-center justify-center gap-2 shadow-lg"
+          >
+            <Lock size={18} />
+            Realizar Fechamento do Dia
+          </button>
         </div>
       </div>
     </Layout>
