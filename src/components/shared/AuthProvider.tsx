@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { Session } from '@supabase/supabase-js'
 import { supabase } from '@/lib/supabase'
 import { useAuthStore } from '@/stores/authStore'
 import { useContextStore } from '@/stores/contextStore'
@@ -8,12 +9,13 @@ import { useDailyClosingsStore } from '@/stores/dailyClosingsStore'
 import { useSalesStore } from '@/stores/salesStore'
 import { useClientsStore } from '@/stores/clientsStore'
 import { useTasksStore } from '@/stores/tasksStore'
+import { Store } from '@/types'
 
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
   const { setSession, setLoading } = useAuthStore()
 
   useEffect(() => {
-    const initStoreContext = async (session: any) => {
+    const initStoreContext = async (session: Session | null) => {
       if (!session?.user) return
       
       const { data, error } = await supabase
@@ -28,7 +30,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       }
 
       const storeId = data.store_id
-      useContextStore.getState().setStore({ id: storeId } as any)
+      useContextStore.getState().setStore({ id: storeId } as unknown as Store)
       
       // Inbound Sync
       useDailyClosingsStore.getState().fetchFromRemote(storeId)

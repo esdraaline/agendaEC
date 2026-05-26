@@ -6,6 +6,7 @@ import { PendingMutation } from '@/types/sync'
 import { Task } from '@/types/task'
 import { Sale } from '@/types/sale'
 import { Client } from '@/types/client'
+import { DailyClosing } from '@/types/dailyClosing'
 
 export async function syncPendingMutations() {
   const queue = useQueueStore.getState()
@@ -174,7 +175,7 @@ async function processMutation(mutation: PendingMutation, storeId: string, userI
     }
 
     case 'daily_closing_create': {
-      const payload = mutation.payload as any
+      const payload = mutation.payload as DailyClosing
       const { error: createError } = await supabase
         .from('daily_closings')
         .insert({
