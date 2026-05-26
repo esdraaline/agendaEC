@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { DailyClosing } from '@/types/dailyClosing'
 import { useQueueStore } from './queueStore'
+import { supabase } from '@/lib/supabase'
 
 interface DailyClosingsState {
   closings: DailyClosing[]
@@ -26,7 +27,6 @@ export const useDailyClosingsStore = create<DailyClosingsState>()(
       fetchFromRemote: async (storeId: string) => {
         if (get().closings.length > 0) return
 
-        const { supabase } = await import('@/lib/supabase')
         const { data, error } = await supabase
           .from('daily_closings')
           .select('*')

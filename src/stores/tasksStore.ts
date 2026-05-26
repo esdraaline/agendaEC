@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { Task } from '@/types/task'
 import { useQueueStore } from './queueStore'
+import { supabase } from '@/lib/supabase'
 
 interface TasksState {
   tasks: Task[]
@@ -67,7 +68,6 @@ export const useTasksStore = create<TasksState>()(
       fetchFromRemote: async (storeId: string) => {
         if (get().tasks.length > 0) return
 
-        const { supabase } = await import('@/lib/supabase')
         const { data, error } = await supabase
           .from('tasks')
           .select('*')
