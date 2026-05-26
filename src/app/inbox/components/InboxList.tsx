@@ -6,11 +6,10 @@ import { useSalesStore } from '@/stores/salesStore'
 import { parseEntry } from '@/lib/ai/parseEntry'
 
 export default function InboxList() {
-  const entries = useInboxStore((state) => 
-    state.entries
-      .filter(e => !e.processed)
-      .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
-  )
+  const allEntries = useInboxStore((state) => state.entries)
+  const entries = [...allEntries]
+    .filter(e => !e.processed)
+    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
   const markProcessed = useInboxStore((state) => state.markProcessed)
   const addTask = useTasksStore((state) => state.addTask)
   const addSale = useSalesStore((state) => state.addSale)
