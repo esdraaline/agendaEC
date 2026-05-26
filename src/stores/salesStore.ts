@@ -8,11 +8,12 @@ interface SalesState {
   addSale: (sale: Sale) => void
   updateSale: (id: string, updates: Partial<Sale>) => void
   removeSale: (id: string) => void
+  fetchFromRemote: (storeId: string) => Promise<void>
 }
 
 export const useSalesStore = create<SalesState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       sales: [],
       addSale: (sale) => {
         set((state) => ({
@@ -74,6 +75,26 @@ export const useSalesStore = create<SalesState>()(
           payload: { deleted_at: new Date().toISOString() },
         })
       },
+      fetchFromRemote: async (storeId: string) => {
+        if (get().sales.length > 0) return
+
+        const { supabase } = await import('@/lib/supabase')
+        const { data, error } = await supabase
+          .from('sales')
+          .select('*')
+          .eq('store_id', storeId)
+          .is('deleted_at', null)
+        
+        if (error) {
+          console.error('[Sync] Erro ao buscar sales:', error)
+          return
+        }
+
+        if (data && data.length > 0) {
+          set({ sales: data as Sale[] })
+          console.debug('[Sync] sales recuperados do Supabase:', data.length)
+        }
+      }
     }),
     {
       name: 'agendaec-sales',

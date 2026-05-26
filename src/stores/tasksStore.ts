@@ -8,11 +8,12 @@ interface TasksState {
   addTask: (task: Task) => void
   removeTask: (id: string) => void
   toggleTask: (id: string) => void
+  fetchFromRemote: (storeId: string) => Promise<void>
 }
 
 export const useTasksStore = create<TasksState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       tasks: [],
       addTask: (task) => {
         set((state) => ({
@@ -63,6 +64,25 @@ export const useTasksStore = create<TasksState>()(
           })
         }
       },
+      fetchFromRemote: async (storeId: string) => {
+        if (get().tasks.length > 0) return
+
+        const { supabase } = await import('@/lib/supabase')
+        const { data, error } = await supabase
+          .from('tasks')
+          .select('*')
+          .eq('store_id', storeId)
+        
+        if (error) {
+          console.error('[Sync] Erro ao buscar tasks:', error)
+          return
+        }
+
+        if (data && data.length > 0) {
+          set({ tasks: data as Task[] })
+          console.debug('[Sync] tasks recuperados do Supabase:', data.length)
+        }
+      }
     }),
     {
       name: 'agendaec-tasks',

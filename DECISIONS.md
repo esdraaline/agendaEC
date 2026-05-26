@@ -750,6 +750,64 @@ O parser utiliza uma lista de palavras-chave explícitas (`SALE_KEYWORDS`) antes
 
 ---
 
+# DEC-023 — Módulo de Relatórios e Exportação Múltipla
+
+## Data
+
+2026-05-25
+
+## Decisão
+
+O MVP de relatórios incluirá:
+- Acesso prioritário via ícone no topo da tela "Hoje".
+- Exportação híbrida: "Baixar CSV" (contador) e "Copiar Texto" (WhatsApp).
+- Seleção de período simplificada: navegação apenas entre meses (Mês Atual / Mês Anterior).
+
+---
+
+## Motivo
+
+- **Acesso:** Mantém o fluxo natural da dona (visão diária -> visão mensal), evitando inflar o BottomNav.
+- **Exportação:** CSV atende à necessidade rigorosa da contabilidade; texto atende à rapidez do uso no WhatsApp. A complexidade de ter os dois utilitários é baixa e o valor gerado é alto.
+- **Período:** Filtros de período livre adicionam complexidade desnecessária agora.
+
+---
+
+## Consequência
+
+- Relatórios isolados na rota `/relatorios`.
+- Criação de `exportUtils.ts` para dual export.
+- Sem necessidade de Date Range Picker no MVP.
+
+---
+
+# DEC-024 — Inbound Sync Híbrido
+
+## Data
+
+2026-05-25
+
+## Decisão
+
+As stores locais (Zustand) realizarão fetch no banco (Supabase) exclusivamente se seus respectivos caches estiverem vazios, utilizando a tabela `store_users` para resgate dinâmico do `store_id` durante a autenticação.
+
+---
+
+## Motivo
+
+- **Limitação descoberta:** A aplicação era 100% outbound (só enviava para nuvem), impedindo a recuperação de histórico após limpeza de cache do navegador.
+- **Eficiência:** Evitar conflitos de merge e requests desnecessários mantendo a premissa Offline-First, mas garantindo segurança na troca de aparelho.
+
+---
+
+## Consequência
+
+- `AuthProvider.tsx` passa a acionar o `contextStore` com o `store_id`.
+- Todas as stores principais (sales, clients, tasks, closings) ganham método `fetchFromRemote`.
+- Fetch de `tasksStore` traz tudo (inclusive concluídas), sem ignorar `deleted_at` pois usa hard-delete.
+
+---
+
 # Regra final
 
 Toda nova decisão deve responder:

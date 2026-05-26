@@ -6,11 +6,12 @@ import { useQueueStore } from './queueStore'
 interface DailyClosingsState {
   closings: DailyClosing[]
   addClosing: (closing: DailyClosing) => void
+  fetchFromRemote: (storeId: string) => Promise<void>
 }
 
 export const useDailyClosingsStore = create<DailyClosingsState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       closings: [],
       addClosing: (closing) => {
         set((state) => ({
@@ -22,6 +23,25 @@ export const useDailyClosingsStore = create<DailyClosingsState>()(
           payload: closing,
         })
       },
+      fetchFromRemote: async (storeId: string) => {
+        if (get().closings.length > 0) return
+
+        const { supabase } = await import('@/lib/supabase')
+        const { data, error } = await supabase
+          .from('daily_closings')
+          .select('*')
+          .eq('store_id', storeId)
+        
+        if (error) {
+          console.error('[Sync] Erro ao buscar daily_closings:', error)
+          return
+        }
+
+        if (data && data.length > 0) {
+          set({ closings: data as DailyClosing[] })
+          console.debug('[Sync] daily_closings recuperados do Supabase:', data.length)
+        }
+      }
     }),
     {
       name: 'agendaec-closings',

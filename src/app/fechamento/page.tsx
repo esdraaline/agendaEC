@@ -35,6 +35,9 @@ export default function FechamentoPage() {
 
   const totalSales = todaysSales.reduce((acc, sale) => acc + sale.total_amount, 0)
   const totalReceived = todaysSales.reduce((acc, sale) => acc + sale.paid_amount, 0)
+  const totalPix = todaysSales.filter(s => s.payment_method === 'pix').reduce((acc, sale) => acc + sale.paid_amount, 0)
+  const totalCard = todaysSales.filter(s => s.payment_method === 'card').reduce((acc, sale) => acc + sale.paid_amount, 0)
+  const totalCash = totalReceived - totalPix - totalCard
   const totalFiado = totalSales - totalReceived
 
   const handleFechamento = () => {
@@ -44,9 +47,9 @@ export default function FechamentoPage() {
         id: crypto.randomUUID(),
         closing_date: today,
         total_sales: totalSales,
-        total_cash: totalReceived, // Simplificação: tudo que foi pago consideramos "caixa/recebido" no momento
-        total_pix: 0,
-        total_card: 0,
+        total_cash: totalCash,
+        total_pix: totalPix,
+        total_card: totalCard,
         total_fiado: totalFiado > 0 ? totalFiado : 0,
         summary_data: { salesCount: todaysSales.length },
         confirmed: true,

@@ -20,9 +20,9 @@ Este documento deve responder rapidamente:
 
 # Sprint Atual
 
-## Sprint 6 — Agenda, Entregas e Fechamento
+## Sprint 9 — Estabilização e Inbound Sync
 
-Status: concluída em 2026-05-23
+Status: em andamento (iniciado em 2026-05-25)
 
 ---
 
@@ -107,11 +107,11 @@ Status: concluída em 2026-05-23
 
 # Próximo passo concreto
 
-Definir e iniciar Sprint 8
+Executar revisão de Backlog (Pós-MVP)
 
 Objetivos imediatos:
 
-1. Iniciar o desenvolvimento do módulo de **Relatórios** (exportação para contador, PDF, ou visão mensal).
+1. Avaliar itens do Backlog (como tarefas recorrentes ou integração Google Calendar) para definir o próximo ciclo.
 
 ---
 
@@ -160,6 +160,14 @@ Nenhum bloqueio crítico no momento.
 - Controle e gerenciamento de produtos ✅
 - Alertas de estoque baixo ✅
 - Integração da Central de Estoque na tela Hoje ✅
+
+## Sprint 8 — Relatórios e Exportação (concluída em 2026-05-25)
+- Visão consolidada do mês criada ✅
+- Exportação híbrida (CSV e Texto) operacionais ✅
+
+## Sprint 9 — Estabilização e Inbound Sync (Em andamento)
+- Inbound Sync entre `store_users` e as 4 principais stores locais 🚧
+- Correções de ContextStore e Fetch Remoto 🚧
 
 ---
 

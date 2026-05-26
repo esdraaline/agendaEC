@@ -10,7 +10,8 @@ import { useDeliveriesStore } from '@/stores/deliveriesStore'
 import { useAppointmentsStore } from '@/stores/appointmentsStore'
 import { useInventoryStore } from '@/stores/inventoryStore'
 import { format } from 'date-fns'
-import { Plus, DollarSign, Calendar, Lock, Package, AlertTriangle } from 'lucide-react'
+import { Plus, DollarSign, Calendar, Lock, Package, AlertTriangle, BarChart3 } from 'lucide-react'
+import { PaymentMethod } from '@/types/sale'
 import { useRouter } from 'next/navigation'
 
 export default function HojePage() {
@@ -24,6 +25,7 @@ export default function HojePage() {
   const [isAddingSale, setIsAddingSale] = useState(false)
   const [saleAmount, setSaleAmount] = useState('')
   const [saleDesc, setSaleDesc] = useState('')
+  const [saleMethod, setSaleMethod] = useState<PaymentMethod>('cash')
 
   if (loading) return <FullPageSpinner />
 
@@ -40,6 +42,7 @@ export default function HojePage() {
       description: saleDesc.trim() || 'Venda rápida',
       total_amount: amount,
       paid_amount: amount,
+      payment_method: saleMethod,
       status: 'confirmed',
       notes: 'Venda rápida registrada manualmente',
       origin: 'manual',
@@ -91,12 +94,20 @@ export default function HojePage() {
             <h1 className="text-2xl font-semibold text-gray-900 mb-1">Hoje</h1>
             <p className="text-sm text-gray-500">Resumo do dia</p>
           </div>
-          <button 
-            onClick={() => setIsAddingSale(!isAddingSale)}
-            className={`${isAddingSale ? 'bg-gray-100 text-gray-600' : 'bg-black text-white'} p-2 rounded-full shadow-lg active:scale-95 transition-transform`}
-          >
-            <Plus size={24} className={`transition-transform ${isAddingSale ? 'rotate-45' : ''}`} />
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => router.push('/relatorios')}
+              className="bg-violet-100 text-violet-700 p-2 rounded-full shadow-sm active:scale-95 transition-transform"
+            >
+              <BarChart3 size={24} />
+            </button>
+            <button 
+              onClick={() => setIsAddingSale(!isAddingSale)}
+              className={`${isAddingSale ? 'bg-gray-100 text-gray-600' : 'bg-black text-white'} p-2 rounded-full shadow-lg active:scale-95 transition-transform`}
+            >
+              <Plus size={24} className={`transition-transform ${isAddingSale ? 'rotate-45' : ''}`} />
+            </button>
+          </div>
         </div>
 
         {isAddingSale && (
@@ -126,6 +137,19 @@ export default function HojePage() {
                 className="w-full p-3 bg-gray-50 rounded-xl focus:outline-none focus:ring-2 focus:ring-black/5"
                 placeholder="Ex: Tintura Loreal"
               />
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs font-bold uppercase text-gray-400">Método de Pagamento</label>
+              <select
+                value={saleMethod}
+                onChange={(e) => setSaleMethod(e.target.value as PaymentMethod)}
+                className="w-full p-3 bg-gray-50 rounded-xl focus:outline-none focus:ring-2 focus:ring-black/5"
+              >
+                <option value="cash">Dinheiro</option>
+                <option value="pix">PIX</option>
+                <option value="card">Cartão</option>
+                <option value="credit">Fiado</option>
+              </select>
             </div>
             <button
               type="submit"

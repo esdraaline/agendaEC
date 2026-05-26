@@ -8,11 +8,12 @@ interface ClientsState {
   addClient: (client: Client) => void
   updateClient: (id: string, updates: Partial<Client>) => void
   removeClient: (id: string) => void
+  fetchFromRemote: (storeId: string) => Promise<void>
 }
 
 export const useClientsStore = create<ClientsState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       clients: [],
       addClient: (client) => {
         set((state) => ({
@@ -74,6 +75,26 @@ export const useClientsStore = create<ClientsState>()(
           payload: { deleted_at: new Date().toISOString() },
         })
       },
+      fetchFromRemote: async (storeId: string) => {
+        if (get().clients.length > 0) return
+
+        const { supabase } = await import('@/lib/supabase')
+        const { data, error } = await supabase
+          .from('clients')
+          .select('*')
+          .eq('store_id', storeId)
+          .is('deleted_at', null)
+        
+        if (error) {
+          console.error('[Sync] Erro ao buscar clients:', error)
+          return
+        }
+
+        if (data && data.length > 0) {
+          set({ clients: data as Client[] })
+          console.debug('[Sync] clients recuperados do Supabase:', data.length)
+        }
+      }
     }),
     {
       name: 'agendaec-clients',

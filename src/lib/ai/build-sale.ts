@@ -20,6 +20,7 @@ export function buildSale(raw_text: string, date: string | null, amount: number)
     description: description.charAt(0).toUpperCase() + description.slice(1),
     total_amount: amount,
     paid_amount: amount, // Assume fully paid by default for MVP simplicity
+    payment_method: null,
     status: 'confirmed',
     notes: `Capturado via Inbox: "${raw_text}"`,
     origin: 'manual',

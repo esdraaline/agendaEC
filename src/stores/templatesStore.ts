@@ -13,7 +13,7 @@ const DEFAULT_TEMPLATES: Template[] = [
   {
     id: 'default-billing',
     name: 'Cobrança Padrão',
-    content: 'Olá {nome}! Tudo bem? Passando para lembrar que você tem um saldo pendente de {saldo} na lojinha. Podemos acertar essa semana?',
+    content: 'Olá {nome}! Seu saldo em aberto é de {saldo}. Quando puder, nos avise para combinarmos o pagamento. Obrigada!',
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   }

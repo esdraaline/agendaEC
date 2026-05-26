@@ -1,4 +1,5 @@
 export type SaleStatus = 'pending' | 'confirmed' | 'cancelled'
+export type PaymentMethod = 'pix' | 'card' | 'cash' | 'credit'
 
 export interface Sale {
   id: string
@@ -7,6 +8,7 @@ export interface Sale {
   description: string | null
   total_amount: number
   paid_amount: number
+  payment_method: PaymentMethod | null
   status: SaleStatus
   notes: string | null
   origin: string

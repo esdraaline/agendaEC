@@ -104,6 +104,7 @@ async function processMutation(mutation: PendingMutation, storeId: string, userI
           total_amount: payload.total_amount,
           paid_amount: payload.paid_amount,
           status: payload.status,
+          payment_method: payload.payment_method,
           notes: payload.notes,
           origin: payload.origin,
           sale_date: payload.sale_date,
@@ -169,6 +170,26 @@ async function processMutation(mutation: PendingMutation, storeId: string, userI
         .update({ deleted_at: payload.deleted_at })
         .eq('id', mutation.entityId)
       if (deleteError) throw deleteError
+      break
+    }
+
+    case 'daily_closing_create': {
+      const payload = mutation.payload as any
+      const { error: createError } = await supabase
+        .from('daily_closings')
+        .insert({
+          id: payload.id,
+          closing_date: payload.closing_date,
+          total_sales: payload.total_sales,
+          total_cash: payload.total_cash,
+          total_pix: payload.total_pix,
+          total_card: payload.total_card,
+          total_fiado: payload.total_fiado,
+          summary_data: payload.summary_data,
+          confirmed: payload.confirmed,
+          created_at: payload.created_at,
+        })
+      if (createError) throw createError
       break
     }
 
