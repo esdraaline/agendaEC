@@ -22,7 +22,7 @@ Este documento deve responder rapidamente:
 
 ## Sprint 9 — Estabilização e Inbound Sync
 
-Status: em andamento (iniciado em 2026-05-25)
+Status: aguardando validação final da usuária
 
 ---
 
@@ -165,9 +165,16 @@ Nenhum bloqueio crítico no momento.
 - Visão consolidada do mês criada ✅
 - Exportação híbrida (CSV e Texto) operacionais ✅
 
-## Sprint 9 — Estabilização e Inbound Sync (Em andamento)
-- Inbound Sync entre `store_users` e as 4 principais stores locais 🚧
-- Correções de ContextStore e Fetch Remoto 🚧
+## Sprint 9 — Estabilização e Inbound Sync (Testes Finais)
+- Inbound Sync bidirecional entre `store_users` e as 4 principais stores locais ✅
+- Correções de ContextStore e Fetch Remoto ✅
+- Prevenção de loops de re-renderização no Zustand (Error 185) ✅
+
+### Protocolo de Validação Final (Pendente):
+Para homologar o MVP oficial, a usuária deve executar os seguintes testes no dispositivo final:
+1. **Recuperação de Cache:** Criar registro -> Apagar Local Storage -> F5 -> Confirmar retorno dos dados.
+2. **Fechamento Seguro:** Criar venda em Pix -> Confirmar valor correto no card Pix do Fechamento.
+3. **WhatsApp Link Limpo:** Abrir perfil de cliente sem DDI -> Tocar em Cobrar -> Confirmar abertura correta do WhatsApp.
 
 ---
 
