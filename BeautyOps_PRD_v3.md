@@ -1073,7 +1073,7 @@ interface QueuedOp {
 
 | Módulo | Entregável MVP | Prioridade |
 |---|---|---|
-| Auth | Google OAuth + sessão | P0 |
+| Auth | Email e senha via Supabase Auth + sessão | P0 |
 | Inbox | Captura + IA híbrida (Gemini→Haiku→Regex) | P0 |
 | Tela Hoje | Vendas + Cobranças + Resumo | P0 |
 | Clientes | Auto-criação + fuzzy match + ficha | P0 |
@@ -1210,7 +1210,7 @@ Com regex local cobrindo ~20% e cache ~10%, redução adicional possível de 25-
 
 ### 13.1 Autenticação e Autorização
 
-- Supabase Auth (Google OAuth + Magic Link)
+- Supabase Auth (email e senha)
 - JWT expiração 1h + refresh token rotativo
 - Cada loja é tenant isolado via RLS
 - Service Role key **nunca** no cliente
@@ -1506,7 +1506,7 @@ AGENTS.md                     # Mesmo conteúdo, formato OpenAI Codex
 
 ### F1 — Walking Skeleton (Semana 1)
 
-- [ ] Auth Google OAuth funcionando ponta a ponta
+- [ ] Auth por email e senha funcionando ponta a ponta
 - [ ] Rota `/hoje` protegida (redirect para `/auth` se anônimo)
 - [ ] Tela Inbox: `QuickCaptureInput` + lista local
 - [ ] Schema Dexie completo + sync inicial (pull de servidor)

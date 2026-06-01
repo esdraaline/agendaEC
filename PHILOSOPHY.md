@@ -204,8 +204,8 @@ Tokens:
 
 Método oficial:
 
-- magic link (email OTP)
-- sem senha manual
+- email e senha via Supabase Auth
+- senha gerenciada pelo Supabase
 - sem token customizado
 
 ---

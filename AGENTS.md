@@ -92,10 +92,11 @@ Correções críticas podem ser aplicadas fora do sprint.
 
 ## Método oficial
 
+- email e senha via Supabase Auth
 - não copiar tokens manualmente para `localStorage` ou `sessionStorage`
 - sessão gerenciada exclusivamente pelo Supabase Client
 - `authStore` não é persistida
-- novos usuários (funcionários) são cadastrados manualmente pela dona
+- novos usuários (funcionários) são cadastrados manualmente pela dona com email e senha
 - sem self-signup
 - máximo 5 usuários
 

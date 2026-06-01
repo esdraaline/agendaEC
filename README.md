@@ -66,12 +66,12 @@ Protocolo de trabalho resumido
 - **PWA:** Web Share Target API + Workbox (Service Worker)
 - **WhatsApp:** `wa.me` deep links (oficiais, gratuitos)
 - **Deploy:** Vercel (com `vercel.json` rewrite SPA)
-- **Auth:** magic link (email OTP)
+- **Auth:** email e senha via Supabase Auth
 - **Monitoramento:** Sentry (opcional, free tier, pós-Sprint 3)
 
 ## Sprints do MVP
 
-1. **Sprint 1 — Fundação:** scaffold Next.js 14, auth (magic link), banco completo (12 tabelas do PRD), PWA manifest com `share_target`, rota `/inbox/share`, captura offline básica, fila offline  
+1. **Sprint 1 — Fundação:** scaffold Next.js 14, auth por email e senha, banco completo (12 tabelas do PRD), PWA manifest com `share_target`, rota `/inbox/share`, captura offline básica, fila offline  
 2. **Sprint 2 — Inbox + IA:** motor de IA (OpenAI), preview de interpretação, confirmação/ajuste, histórico do Inbox  
 3. **Sprint 3 — Hoje + Vendas + Clientes:** tela Hoje com dados reais, CRUD de vendas, perfil de cliente, saldo devedor  
 4. **Sprint 4 — WhatsApp + Cobranças:** `wa.me` links, templates editáveis, tela de cobranças, botão "Cobrar no WhatsApp"  

@@ -280,6 +280,10 @@ Stack oficial:
 
 2026-05-12
 
+## Status
+
+Revogada por DEC-025 em 2026-06-01.
+
 ## Decisão
 
 Utilizar autenticação por email OTP (magic link).
@@ -805,6 +809,36 @@ As stores locais (Zustand) realizarão fetch no banco (Supabase) exclusivamente 
 - `AuthProvider.tsx` passa a acionar o `contextStore` com o `store_id`.
 - Todas as stores principais (sales, clients, tasks, closings) ganham método `fetchFromRemote`.
 - Fetch de `tasksStore` traz tudo (inclusive concluídas), sem ignorar `deleted_at` pois usa hard-delete.
+
+# DEC-025 — Autenticação por Email e Senha
+
+## Data
+
+2026-06-01
+
+## Decisão
+
+Substituir o login por magic link/email OTP por autenticação com email e senha via Supabase Auth.
+
+---
+
+## Motivo
+
+- reduzir dependência do recebimento de email para cada acesso
+- tornar o login mais previsível no uso diário da loja
+- manter a sessão gerenciada pelo Supabase Client
+- preservar cadastro manual de funcionários e vínculo obrigatório em `store_users`
+
+---
+
+## Consequência
+
+- frontend utiliza `supabase.auth.signInWithPassword({ email, password })`
+- novos usuários continuam sendo cadastrados manualmente, agora com email e senha
+- não há auto-cadastro público no app
+- `authStore` permanece não persistida
+- tokens continuam gerenciados exclusivamente pelo Supabase
+- DEC-008 deixa de ser o método oficial vigente
 
 ---
 

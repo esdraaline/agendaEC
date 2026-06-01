@@ -1,6 +1,6 @@
 # STATUS.md — AgendaEC
 
-Última atualização: 2026-05-16
+Última atualização: 2026-06-01
 
 ---
 
@@ -27,6 +27,21 @@ Status: aguardando validação final da usuária
 ---
 
 # Checklist Atual
+
+## Ajustes de Autenticação (2026-06-01)
+
+- [x] Login alterado de magic link para email e senha via Supabase Auth
+- [x] Documentação operacional atualizada para email e senha
+- [x] DEC-025 registrada, revogando DEC-008 como método oficial vigente
+- [x] Build local validado com `npm run build`
+- [x] Provider Email confirmado ativo no Supabase `jgokqginxmkfksyppues`
+- [x] Usuária `esdraaline@gmail.com` confirmada no Supabase Auth e senha atualizada
+- [x] Loja inicial criada (`ba71b40c-f6be-4282-a823-c721d14472b4`)
+- [x] Vínculo owner criado em `store_users` para `esdraaline@gmail.com`
+- [x] Policy recursiva de `store_users` corrigida no Supabase
+- [x] Login por senha e leitura de contexto de loja validados remotamente
+
+---
 
 ## Estrutura Inicial (Sprint 1)
 
@@ -126,13 +141,14 @@ Nenhum bloqueio crítico no momento.
 - A integração de Vendas no Inbox utiliza detecção determinística de valores monetários.
 - A tela Hoje prioriza a visibilidade imediata do faturamento e recebimentos do dia.
 - O domínio de Clientes foi mantido mínimo (sem tags) para focar na operação de saldo e contato.
+- O login vigente é email e senha via Supabase Auth; usuários continuam cadastrados manualmente e vinculados por `store_users`.
 
 ---
 
 # Histórico de Sprints Concluídos
 
 ## Sprint 1 — Fundação (concluída em 2026-05-14)
-- Magic link, PWA, e banco base funcionando ✅
+- Email e senha, PWA, e banco base funcionando ✅
 
 ## Sprint 2 — Inbox + Parser (concluída em 2026-05-16)
 - Captura de texto ágil e local ✅

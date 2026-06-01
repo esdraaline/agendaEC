@@ -5,41 +5,28 @@ import { supabase } from '@/lib/supabase'
 
 export default function LoginForm() {
   const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
-  const [sent, setSent] = useState(false)
   const [error, setError] = useState('')
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!email.trim()) return
+    if (!email.trim() || !password) return
 
     setLoading(true)
     setError('')
 
-    const { error } = await supabase.auth.signInWithOtp({
+    const { error } = await supabase.auth.signInWithPassword({
       email: email.trim(),
-      options: {
-        emailRedirectTo: `${window.location.origin}/hoje`,
-      },
+      password,
     })
 
     setLoading(false)
 
     if (error) {
-      setError(error.message)
+      setError('Email ou senha inválidos.')
       return
     }
-
-    setSent(true)
-  }
-
-  if (sent) {
-    return (
-      <div className="rounded-xl bg-green-50 border border-green-200 p-4 text-center">
-        <p className="text-sm font-medium text-green-800">Link enviado!</p>
-        <p className="mt-1 text-sm text-green-600">Verifique seu email e clique no link para entrar.</p>
-      </div>
-    )
   }
 
   return (
@@ -54,12 +41,21 @@ export default function LoginForm() {
         className="w-full rounded-xl border border-gray-200 bg-white p-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500"
       />
 
+      <input
+        type="password"
+        placeholder="Sua senha"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        autoComplete="current-password"
+        className="w-full rounded-xl border border-gray-200 bg-white p-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500"
+      />
+
       <button
         type="submit"
-        disabled={loading || !email.trim()}
+        disabled={loading || !email.trim() || !password}
         className="w-full rounded-xl bg-violet-600 py-3 text-base font-semibold text-white disabled:opacity-40 active:scale-[0.98] transition-transform"
       >
-        {loading ? 'Enviando...' : 'Receber link de acesso'}
+        {loading ? 'Entrando...' : 'Entrar'}
       </button>
 
       {error && (

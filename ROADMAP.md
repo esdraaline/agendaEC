@@ -36,7 +36,7 @@ Construir a fundação técnica inicial do projeto.
 - `.env` no `.gitignore`
 - `vercel.json` com rewrite SPA
 - `manifest.json` com `share_target`
-- autenticação via magic link
+- autenticação via email e senha
 - Zustand 5 configurado
 - persistência local
 - fila offline de mutações

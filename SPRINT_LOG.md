@@ -35,7 +35,7 @@ Construir a base técnica do AgendaEC.
 - `.env.example`
 - `vercel.json`
 - `manifest.json` com `share_target`
-- autenticação via magic link
+- autenticação via email e senha
 - Zustand 5
 - persistência local
 - fila offline `PendingMutation[]`

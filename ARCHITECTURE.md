@@ -88,10 +88,10 @@ OpenAI API (via Edge Function proxy)
 
 ## Método oficial
 
-Magic link (email OTP) via Supabase Auth:
+Email e senha via Supabase Auth:
 
 ```ts
-supabase.auth.signInWithOtp({ email })
+supabase.auth.signInWithPassword({ email, password })
 ```
 
 ## Regras
@@ -100,7 +100,8 @@ supabase.auth.signInWithOtp({ email })
 - não copiar tokens manualmente para `sessionStorage`
 - não expor tokens em logs
 - `authStore` não é persistida
-- novos usuários cadastrados manualmente
+- novos usuários cadastrados manualmente com email e senha
+- sem auto-cadastro público
 
 ---
 
