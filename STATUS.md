@@ -43,6 +43,12 @@ Status: aguardando validação final da usuária
 
 ---
 
+## Documentação de Uso (2026-06-01)
+
+- [x] Manual da usuária criado em `MANUAL_USUARIO.md`
+
+---
+
 ## Estrutura Inicial (Sprint 1)
 
 - [x] Definição da stack oficial
